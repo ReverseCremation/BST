@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 #include "BST312.h"
+#include <string>
 
 using namespace std;
 
@@ -22,13 +23,11 @@ void print(vector<T> vec){
 int main() {
 
     ifstream inFile;
-    inFile.open("test.txt");
-
+    inFile.open("/home/jeronimo/Desktop/BME_Fall_2018/EE312/BST/test.txt");
     BST_312<string> bst;
-   
     string s;
     inFile >> s;
-    while (inFile) {;
+    while (inFile) {
         cout << "inserting ... " << s << endl;
         bst.insertItem(s);
         inFile >> s;

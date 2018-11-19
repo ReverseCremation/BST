@@ -140,6 +140,8 @@ private:
     void postOrderTraversal(TreeNode* t,vector<ItemType>& result) const;
     void copyTree(TreeNode*& copy, const TreeNode *originalTree);
 
+    //
+    bool operator==(const TreeNode& currentNode) const;
 };
 
 /*******************************
@@ -152,6 +154,7 @@ BST_312<ItemType>::BST_312 ()
     root = NULL;
 }
 
+
 template<class ItemType>
 BST_312<ItemType>::BST_312(const BST_312 & src)
 {
@@ -162,7 +165,6 @@ template<class ItemType>
 BST_312<ItemType>::~BST_312()
 {
     makeEmpty();
-
 }
 
 
@@ -214,7 +216,6 @@ void BST_312 <ItemType>::deleteNode(TreeNode*& t)
 template<class ItemType>
 void BST_312 <ItemType>::getPredecessor(TreeNode* t, ItemType& data)
 {
-
     while (t->right != NULL)
         t = t->right;
 
@@ -241,13 +242,26 @@ template<class ItemType>
 void BST_312 <ItemType>::deleteItem(const ItemType& newItem)
 {
     deleteItem(root, newItem);
-
 }
 
+///////////////////////////////// makeEmpty() /////////////////////////////////////////
+// makeEmpty() deletes all nodes in the BST in the sequence of a postorder traversal //
+///////////////////////////////////////////////////////////////////////////////////////
 template<class ItemType>
-void BST_312 <ItemType>::makeEmpty(TreeNode*& t)
-{
+void BST_312 <ItemType>::makeEmpty(TreeNode*& t) {
     //YOUR CODE GOES HERE
+    TreeNode *right = t->right;
+    TreeNode *left = t->left;
+
+    // recursively delete all nodes according to postorder traversal sequence
+
+    if (right == NULL && left == NULL) {    // t is a leaf
+        deleteNode(t);
+    }
+    else {
+        makeEmpty(right);
+        makeEmpty(left);
+    }
 }
 
 template<class ItemType>
@@ -278,22 +292,51 @@ bool BST_312 <ItemType>::isFull() const
     {
         return true;
     }
-
 }
 
 
 template<class ItemType>
 void BST_312 <ItemType>::insertItem(TreeNode*& t, const ItemType& newItem)
 {
+    // If inserting first node
+    TreeNode* temp = t;
 
-    //YOUR CODE GOES HERE
+    // Finding insertion point
+    if(newItem < temp->data){       // if value pointed to by newItem is less than current node, move left
 
+        if(temp->left != NULL) {     // if we have not reached a leaf, then continue recursively
+            temp = (temp->left);
+            insertItem(temp, newItem);
+        }else{
+            TreeNode* leftLeaf = new TreeNode;       // insert new node in BST
+            temp->left = leftLeaf;
+            temp = temp->left;
+            temp->data = newItem;
+            temp->left = NULL;
+            temp->right = NULL;
+        }
+    }else{                           // if value pointed to by newItem is greater than current node, move right
+        if(temp->right != NULL) {
+            temp = (temp->right);
+
+            insertItem(temp, newItem);
+        }else{
+            TreeNode* rightLeaf = new TreeNode;
+            temp->right = rightLeaf;
+            temp = temp->right;
+            temp->data = newItem;
+            temp->left = NULL;
+            temp->right = NULL;
+        }
+    }
 }
 
 template<class ItemType>
 void BST_312 <ItemType>::insertItem(const ItemType& newItem)
 {
     //YOUR CODE GOES HERE
+    TreeNode* tree = root;
+    insertItem(tree, newItem);
 }
 
 
@@ -318,11 +361,11 @@ void BST_312 <ItemType>::preOrderTraversal(TreeNode* t,vector<ItemType>& result)
     //YOUR CODE GOES HERE
 }
 
-
 template<class ItemType>
 vector<ItemType> BST_312 <ItemType>::preOrderTraversal()
 {
     //YOUR CODE GOES HERE
+
 
 }
 
@@ -344,7 +387,14 @@ void BST_312 <ItemType>::postOrderTraversal(TreeNode* t,vector<ItemType>& result
 {
 
     //YOUR CODE GOES HERE
+
+    TreeNode* right = t->right;
+    TreeNode* left = t->left;
+
+    // Traversing left branch
+//    if(left->)
 }
+
 
 template<class ItemType>
 vector<ItemType> BST_312 <ItemType>::postOrderTraversal()
@@ -356,8 +406,17 @@ template<class ItemType>
 bool BST_312 <ItemType>::isItemInTree(const ItemType& item)
 {
 
-  //YOUR CODE GOES HERE
+    //YOUR CODE GOES HERE
+
+
 
 }
+
+/*
+template<class ItemType>
+bool BST_312 <ItemType>::operator==(const BST_312<ItemType>::TreeNode &currentNode) const {
+}
+*/
+
 #endif
 
