@@ -296,47 +296,53 @@ bool BST_312 <ItemType>::isFull() const
 
 
 template<class ItemType>
-void BST_312 <ItemType>::insertItem(TreeNode*& t, const ItemType& newItem)
-{
-    // If inserting first node
-    TreeNode* temp = t;
+void BST_312 <ItemType>::insertItem(TreeNode*& t, const ItemType& newItem) {
 
-    // Finding insertion point
-    if(newItem < temp->data){       // if value pointed to by newItem is less than current node, move left
+    // if inserting first item (i.e. at root)
+TreeNode* temp = t;
+        // Finding insertion point
+        if (newItem < t->data) {       // if value pointed to by newItem is less than current node, move left
 
-        if(temp->left != NULL) {     // if we have not reached a leaf, then continue recursively
-            temp = (temp->left);
-            insertItem(temp, newItem);
-        }else{
-            TreeNode* leftLeaf = new TreeNode;       // insert new node in BST
-            temp->left = leftLeaf;
-            temp = temp->left;
-            temp->data = newItem;
-            temp->left = NULL;
-            temp->right = NULL;
-        }
-    }else{                           // if value pointed to by newItem is greater than current node, move right
-        if(temp->right != NULL) {
-            temp = (temp->right);
+            if (temp->left != NULL) {     // if we have not reached a leaf, then continue recursively
+                temp = (temp->left);
+                insertItem(t, newItem);
+            } else {
+                TreeNode *leftLeaf = new TreeNode;       // insert new node in BST
+                temp->left = leftLeaf;
+                temp = temp->left;
+                temp->data = newItem;
+                temp->left = NULL;
+                temp->right = NULL;
+            }
+        } else {                           // if value pointed to by newItem is greater than current node, move right
+            if (temp->right != NULL) {
+                temp = (temp->right);
 
-            insertItem(temp, newItem);
-        }else{
-            TreeNode* rightLeaf = new TreeNode;
-            temp->right = rightLeaf;
-            temp = temp->right;
-            temp->data = newItem;
-            temp->left = NULL;
-            temp->right = NULL;
+                insertItem(temp, newItem);
+            } else {
+                TreeNode *rightLeaf = new TreeNode;
+                temp->right = rightLeaf;
+                temp = temp->right;
+                temp->data = newItem;
+                temp->left = NULL;
+                temp->right = NULL;
+            }
         }
     }
-}
+
 
 template<class ItemType>
 void BST_312 <ItemType>::insertItem(const ItemType& newItem)
 {
-    //YOUR CODE GOES HERE
-    TreeNode* tree = root;
-    insertItem(tree, newItem);
+    
+    //YOUR CODE GOES HERE;
+    if(root == NULL){
+        TreeNode* tree = new TreeNode;
+        root = tree;
+        root->data = newItem;
+    }else {
+        insertItem(root, newItem);
+    }
 }
 
 
