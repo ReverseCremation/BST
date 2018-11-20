@@ -33,7 +33,7 @@ int main() {
         inFile >> s;
     }
 
-    cout << "postorder traversal is " << endl;
+    cout << "postorder traversal is: " << endl;
     print(bst.postOrderTraversal());
     cout << endl;
 
@@ -53,6 +53,16 @@ int main() {
     cout << endl;
     cout << "number of nodes in tree after delete is " << bst.countNodes() << endl;
     cout << endl;
+
+    cout << "checking if ""this"" is in tree" << endl;
+    s = "This";
+    bool truth = bst.isItemInTree(s);
+    cout << truth << endl;
+
+    cout << "deleting tree" << endl;
+    bst.makeEmpty();
+    cout << "number of nodes now is:" << bst.countNodes();
+
 
 }
 
